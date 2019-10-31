@@ -10,20 +10,18 @@ void print_list_debug(struct song_node * subject)
 
 void print_list(struct song_node * subject)
 {
-  while(subject)
-  {
-    printf("%d ", (*subject).i);
-    subject = (*subject).next;
-  }
   printf("\n");
 }
 
-struct song_node * insert_front(struct song_node * subject, int data)
+struct song_node * insert_front(struct song_node * subject, char * songName, char * songArtist);
 {
   struct song_node * p = malloc(sizeof(struct song_node));
-  (*p).i = data;
-  (*p).next = subject;
-  // printf("song_node inserted, the value is %d, the pointer is %ld\n", data, p);
+  strcpy((*p).name, *songName);
+  strcpy((*p).artist, *songArtist);
+  if(strcmp((*subject).artist, *songArtist) > 0)
+  {
+    
+  }
   return p;
 }
 
@@ -40,7 +38,7 @@ struct song_node * free_list(struct song_node * subject)
   return subject;
 }
 
-struct song_node * remove_song_node(struct song_node *front, int data)
+struct song_node * remove_song_node(struct song_node *front, char * songName, char * songArtist);
 {
   struct song_node *prev;
   // printf("front is %ld\n", front);
