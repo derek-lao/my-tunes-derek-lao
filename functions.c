@@ -13,15 +13,31 @@ void print_list(struct song_node * subject)
   printf("\n");
 }
 
-struct song_node * insert_front(struct song_node * subject, char * songName, char * songArtist);
+struct song_node * insert(struct song_node * subject, char * songName, char * songArtist);
 {
   struct song_node * p = malloc(sizeof(struct song_node));
   strcpy((*p).name, *songName);
   strcpy((*p).artist, *songArtist);
   if(strcmp((*subject).artist, *songArtist) > 0)
   {
-    
+    (*p).next = subject;
+    return p;
   }
+
+  struct song_node * prev;
+  while(strcmp((*subject).artist, *songArtist) < 0)
+  {
+    prev = subject;
+    subject = (*subject).next;
+  }
+
+  if(strcmp((*subject).artist, *songArtist) > 0)
+  {
+    (*prev).next = subject;
+    return p;
+  }
+
+
   return p;
 }
 
