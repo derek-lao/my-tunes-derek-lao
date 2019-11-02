@@ -83,20 +83,35 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
       prev = subject;
       subject = subject->next;
     }
-    prev-> = p;
+    prev->next = p;
     p->next = subject;
     return p;
   }
-  return p;
+  printf("You should not have gotten up to this step! Error in function \"insert\" in file \"functions.c\"\n");
+  return subject;
 }
 
-struct song_node * first_song_artist(struct song_node *subject, char * artist)
+struct song_node * first_song_artist(struct song_node *subject, char * songArtist)
 {
-  while(strcmp(subject->artist,*artist))
+  while(subject && strcmp(subject->artist,*songArtist))
   {
     subject = subject->next;
   }
   return subject;
+}
+
+struct song_node * find_song(struct song_node * subject, char * songName, char * songArtist)
+{
+  struct song_node * loopingPointer = first_song_artist(subject, songArtist);
+  while(!strcmp(loopingPointer->artist, songArtist))
+  {
+    if(!strcmp(loopingPointer->name, songName))
+    {
+      return loopingPointer;
+    }
+    loopingPointer = loopingPointer->next;
+  }
+  return NULL;
 }
 
 struct song_node * free_list(struct song_node * subject)
