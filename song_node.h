@@ -11,5 +11,6 @@ struct song_node * table[27];
 void print_list_debug(struct song_node * subject);
 void print_list(struct song_node * subject);
 struct song_node * insert(struct song_node * subject, char * songName, char * songArtist);
+struct song_node * first_song_artist(struct song_node *subject, char * artist);
 struct song_node * free_list(struct song_node * subject);
 struct song_node * remove_song_node(struct song_node *front, char * songName, char * songArtist);

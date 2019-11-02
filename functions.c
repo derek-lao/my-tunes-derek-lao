@@ -10,35 +10,93 @@ void print_list_debug(struct song_node * subject)
 
 void print_list(struct song_node * subject)
 {
-  printf("\n");
+  while(subject)
+  {
+    printf("song artist: %s\nsong name: %s\n\n", subject->artist, subject->name);
+    subject = subject->next;
+  }
 }
 
 struct song_node * insert(struct song_node * subject, char * songName, char * songArtist);
 {
   struct song_node * p = malloc(sizeof(struct song_node));
-  strcpy((*p).name, *songName);
-  strcpy((*p).artist, *songArtist);
-  if(strcmp((*subject).artist, *songArtist) > 0)
-  {
-    (*p).next = subject;
-    return p;
-  }
+  strcpy(p->name, *songName);
+  strcpy(p->artist, *songArtist);
 
   struct song_node * prev;
-  while(strcmp((*subject).artist, *songArtist) < 0)
-  {
-    prev = subject;
-    subject = (*subject).next;
-  }
 
-  if(strcmp((*subject).artist, *songArtist) > 0)
+  if(!subject)
   {
-    (*prev).next = subject;
+    p->next = subject;
     return p;
   }
 
+  if(strcmp(subject->artist, *songArtist) > 0)
+  {
+    p->next = subject;
+    return p;
+  }
 
+  if(!strcmp(subject->artist, *songArtist))
+  {
+    if(strcmp(subject->name, *songName) >= 0)
+    {
+      p->next = subject;
+      return p;
+    }
+
+    while(strcmp(subject->name, *songName) < 0)
+    {
+      prev = subject;
+      subject = subject->next;
+    }
+    prev->next = p;
+    p->next = subject;
+    return p;
+  }
+  //CASES FOR THE FIRST NODE COMPLETE
+
+  while(strcmp(subject->artist, *songArtist) < 0)
+  {
+    prev = subject;
+    subject = subject->next;
+  }
+
+  if(strcmp(subject->artist, *songArtist) > 0)
+  {
+    prev->next = p;
+    p->next = subject;
+    return p;
+  }
+
+  if(!strcmp(subject->artist, *songArtist))
+  {
+    if(strcmp(subject->name, *songName) >= 0)
+    {
+      prev->next = p;
+      p->next = subject;
+      return p;
+    }
+
+    while(strcmp(subject->name, *songName) < 0)
+    {
+      prev = subject;
+      subject = subject->next;
+    }
+    prev-> = p;
+    p->next = subject;
+    return p;
+  }
   return p;
+}
+
+struct song_node * first_song_artist(struct song_node *subject, char * artist)
+{
+  while(strcmp(subject->artist,*artist))
+  {
+    subject = subject->next;
+  }
+  return subject;
 }
 
 struct song_node * free_list(struct song_node * subject)
