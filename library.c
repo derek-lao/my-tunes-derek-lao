@@ -4,6 +4,16 @@
 #include "library.h"
 
 //index = char value - 97;
+struct song_node * find_last(struct song_node * subject)
+{
+  struct song_node * prev = subject;
+  while(subject)
+  {
+    prev = subject;
+    subject = subject->next;
+  }
+  return prev;
+}
 
 int convertIndex(char * songArtist)
 {
@@ -28,6 +38,18 @@ void print_entries_letter(char c)
   print_list(library[convertIndex(&c)]);
 }
 
+struct song_node * find_artist(char * songArtist)
+{
+  struct song_node * subject = library[convertIndex(songArtist)];
+  struct song_node * answer = first_song_artist_helper(subject, songArtist).second;
+  if(!answer)
+  {
+    printf("%s not found\n", songArtist);
+    return answer;
+  }
+  return answer;
+}
+
 void print_songs_artist(char * songArtist)
 {
   struct song_node * subject = library[convertIndex(songArtist)];
@@ -49,8 +71,38 @@ void print_songs_artist(char * songArtist)
 void print_library()
 {
   int letterIndex;
-  for(letterIndex = 0 ; letterIndex < 27 ; letterIndex ++)
+  for(letterIndex = 0 ; letterIndex < 26 ;)
   {
+    printf("%c:\n", (char) letterIndex)
     print_entries_letter((char) letterIndex);
+    printf("\n");
+    letterIndex ++;
   }
+  if(letterIndex == 26)
+  {
+    printf("symbols:\n")
+    print_entries_letter((char) letterIndex);
+    printf("\n");
+  }
+}
+
+struct song_node *  print_series_random()
+{
+  struct song_node * frontMarker = *library;
+  struct song_node * subject;
+  struct song_node * element;
+  int letterIndex;
+  for(letterIndex = 0 ; letterIndex < 26 ; letterIndex ++)
+  {
+    subject = find_last(library[letterIndex]);
+    subject.next = library[letterIndex + 1];
+  }
+  subject = NULL;
+  int forLoopIndex;
+  for(forLoopIndex = 0; forLoopIndex < 100 ; forLoopIndex ++)
+  {
+    element = random_element(frontMarker);
+    subject = insert_front(subject, element->artist, element->name);
+  }
+  return subject;
 }

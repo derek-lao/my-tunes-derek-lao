@@ -38,6 +38,15 @@ void print_node(struct song_node * subject)
   printf("input pointer was null\n");
 }
 
+struct song_node *insert_front(struct song_node * subject, char * songArtist, char * songName)
+{
+  struct song_node * p = malloc(sizeof(struct song_node));
+  strcpy(p->name, songName);
+  strcpy(p->artist, songArtist);
+  p->next = subject;
+  return p;
+}
+
 struct song_node * insert(struct song_node * subject, char * songArtist, char * songName)
 {
   struct song_node * frontMarker = subject;
@@ -100,8 +109,6 @@ struct twoPointers first_song_artist_helper(struct song_node *subject, char * so
 {
   struct twoPointers answers;
   struct song_node * prev = subject;
-  if(subject && strcmp(subject->artist,songArtist))
-    subject = subject->next;
   while(subject && strcmp(subject->artist,songArtist))
   {
     prev = subject;

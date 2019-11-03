@@ -13,6 +13,9 @@ void print_list(struct song_node * subject);
 void print_node(struct song_node * subject);
 int sizeOfList(struct song_node *subject);
 
+struct song_node *insert_front(struct song_node * subject, char * songArtist, char * songName);
+// insert nodes at the front
+
 struct song_node * insert(struct song_node * subject, char * songArtist, char * songName);
 // insert nodes in order alphabetical by Artist then by Song, returns pointer to inserted node
 
