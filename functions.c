@@ -1,12 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include "song_node.h"
 
-void print_list_debug(struct song_node * subject)
-{
-  printf("the value is %d and the pointer is %ld and the next pointer is %ld", (*subject).i, subject, (*subject).next);
-  printf("\n");
-}
+// void print_list_debug(struct song_node * subject)
+// {
+//   printf("the value is %d and the pointer is %ld and the next pointer is %ld", (*subject).i, subject, (*subject).next);
+//   printf("\n");
+// }
 
 void print_list(struct song_node * subject)
 {
@@ -17,26 +18,18 @@ void print_list(struct song_node * subject)
   }
 }
 
-struct song_node * insert(struct song_node * subject, char * songName, char * songArtist);
+struct song_node * insert(struct song_node * subject, char * songName, char * songArtist)
 {
   struct song_node * p = malloc(sizeof(struct song_node));
   strcpy(p->name, *songName);
   strcpy(p->artist, *songArtist);
+  struct song_node * prev = subject;
 
-  struct song_node * prev;
-
-  if(!subject)
+  if(!subject || strcmp(subject->artist, *songArtist) > 0)
   {
     p->next = subject;
     return p;
   }
-
-  if(strcmp(subject->artist, *songArtist) > 0)
-  {
-    p->next = subject;
-    return p;
-  }
-
   if(!strcmp(subject->artist, *songArtist))
   {
     if(strcmp(subject->name, *songName) >= 0)
@@ -44,7 +37,6 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
       p->next = subject;
       return p;
     }
-
     while(strcmp(subject->name, *songName) < 0)
     {
       prev = subject;
@@ -61,14 +53,12 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
     prev = subject;
     subject = subject->next;
   }
-
   if(strcmp(subject->artist, *songArtist) > 0)
   {
     prev->next = p;
     p->next = subject;
     return p;
   }
-
   if(!strcmp(subject->artist, *songArtist))
   {
     if(strcmp(subject->name, *songName) >= 0)
@@ -77,7 +67,6 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
       p->next = subject;
       return p;
     }
-
     while(strcmp(subject->name, *songName) < 0)
     {
       prev = subject;
@@ -91,27 +80,68 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
   return subject;
 }
 
-struct song_node * first_song_artist(struct song_node *subject, char * songArtist)
+struct song_node *[2] first_song_artist(struct song_node *subject, char * songArtist)
 {
+  struct node * [2] answers;
+  struct node * prev = subject;
+  if(subject && strcmp(subject->artist,*songArtist))
+    subject = subject->next;
   while(subject && strcmp(subject->artist,*songArtist))
   {
+    prev = subject;
     subject = subject->next;
   }
-  return subject;
+  *answers = prev;
+  *(answers + 1) = subject;
+  return answers;//this becomes NULL if you go through the whole list
 }
 
-struct song_node * find_song(struct song_node * subject, char * songName, char * songArtist)
+struct song_node * [2] find_song(struct song_node * subject, char * songName, char * songArtist)
 {
-  struct song_node * loopingPointer = first_song_artist(subject, songArtist);
+  struct song_node * [2] answers;
+  struct song_node * prev = first_song_artist(subject, songArtist)[0];
+  subject = first_song_artist(subject, songArtist)[1];
+  if(!subject)
+  {
+    *answers = NULL;
+    *(answers + 1) = NULL;
+  }
   while(!strcmp(loopingPointer->artist, songArtist))
   {
     if(!strcmp(loopingPointer->name, songName))
     {
-      return loopingPointer;
+      *answers = prev;
+      *(answers + 1) = subject;
+      return answers;
     }
-    loopingPointer = loopingPointer->next;
+    prev = subject;
+    subject = subject->next;
   }
-  return NULL;
+  //if you made it here, it means the song was not found;
+  *answers = NULL;
+  *(answers + 1) = NULL;
+  return answers;//this becomes NULL. If this goes here immediately and skips the while loop, it means the first_song_artist is not working
+}
+
+struct song_node * remove_song_node(struct song_node *subject, char * songName, char * songArtist)
+{
+  struct song_node * prev= find_node(subject, songArtist)[0];
+  struct song_node * subject = find_node(subject, songArtist)[1];
+
+  if(!subject)//meaning that if the song was found
+  {
+    prev->next = subject->next;
+    free(subject);
+  }
+
+
+  while(artistNode)
+  {
+    if(!strcmp(artistNode->name, *songName))
+    {
+
+    }
+  }
 }
 
 struct song_node * free_list(struct song_node * subject)
@@ -127,34 +157,34 @@ struct song_node * free_list(struct song_node * subject)
   return subject;
 }
 
-struct song_node * remove_song_node(struct song_node *front, char * songName, char * songArtist);
-{
-  struct song_node *prev;
-  // printf("front is %ld\n", front);
-  while((*front).i == data)
-  {
-    struct song_node *temp = front;
-    front = (*front).next;
-    free(temp);
-    temp = NULL;
-  }
-  // printf("front is %ld\n", front);
-  struct song_node *frontMarker = front;
-  while(front)
-  {
-    // printf("front before is %ld\n", front);
-    prev = front;
-    front = (*front).next;
-    // printf("got up to here\n");
-    while(front && (*front).i == data)
-    {
-      struct song_node *temp = front;
-      front = (*front).next;
-      (*prev).next = front;
-      free(temp);
-      temp = NULL;
-    }
-    // printf("front after is %ld\n", front);
-  }
-  return frontMarker;
-}
+// struct song_node * remove_song_node(struct song_node *front, char * songName, char * songArtist);
+// {
+//   struct song_node *prev;
+//   // printf("front is %ld\n", front);
+//   while((*front).i == data)
+//   {
+//     struct song_node *temp = front;
+//     front = (*front).next;
+//     free(temp);
+//     temp = NULL;
+//   }
+//   // printf("front is %ld\n", front);
+//   struct song_node *frontMarker = front;
+//   while(front)
+//   {
+//     // printf("front before is %ld\n", front);
+//     prev = front;
+//     front = (*front).next;
+//     // printf("got up to here\n");
+//     while(front && (*front).i == data)
+//     {
+//       struct song_node *temp = front;
+//       front = (*front).next;
+//       (*prev).next = front;
+//       free(temp);
+//       temp = NULL;
+//     }
+//     // printf("front after is %ld\n", front);
+//   }
+//   return frontMarker;
+// }
