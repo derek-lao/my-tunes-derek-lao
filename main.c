@@ -116,5 +116,10 @@ int main()
   print_node(correct);
   correct = random_element(thing);
   print_node(correct);
+  printf("\n\n");
+  printf("======================\n\n");
+
+  printf("Testing library\n\n");
+
   return 0;
 }

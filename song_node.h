@@ -10,8 +10,12 @@ struct twoPointers{
 };
 
 void print_list(struct song_node * subject);
+
 void print_node(struct song_node * subject);
-int sizeOfList(struct song_node *subject);
+
+int size(struct song_node *subject);
+
+struct song_node * find_last(struct song_node * subject)
 
 struct song_node *insert_front(struct song_node * subject, char * songArtist, char * songName);
 // insert nodes at the front

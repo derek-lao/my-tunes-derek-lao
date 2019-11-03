@@ -3,18 +3,6 @@
 #include<string.h>
 #include "library.h"
 
-//index = char value - 97;
-struct song_node * find_last(struct song_node * subject)
-{
-  struct song_node * prev = subject;
-  while(subject)
-  {
-    prev = subject;
-    subject = subject->next;
-  }
-  return prev;
-}
-
 int convertIndex(char * songArtist)
 {
   int index = *songArtist - 97;
@@ -22,9 +10,9 @@ int convertIndex(char * songArtist)
   index = 26;
   return index;
 }
-struct song_node * add(char * songArtist, char * songName)
+void add(char * songArtist, char * songName)
 {
-  return insert(library[convertIndex(songArtist)], songArtist, songName);
+  insert(library[convertIndex(songArtist)], songArtist, songName);
 }
 
 struct song_node * search_song(char * songArtist, char * songName)
@@ -48,6 +36,12 @@ struct song_node * find_artist(char * songArtist)
     return answer;
   }
   return answer;
+}
+
+void delete_song(char * songArtist, char * songName)
+{
+  struct song_node * subject = library[convertIndex(songArtist)];
+  remove_song(subject, songArtist, songName);
 }
 
 void print_songs_artist(char * songArtist)
@@ -86,7 +80,7 @@ void print_library()
   }
 }
 
-struct song_node *  print_series_random()
+struct song_node *  print_series_random_100()
 {
   struct song_node * frontMarker = *library;
   struct song_node * subject;
@@ -105,4 +99,13 @@ struct song_node *  print_series_random()
     subject = insert_front(subject, element->artist, element->name);
   }
   return subject;
+}
+
+void clear_library()
+{
+  int letterIndex;
+  for(letterIndex = 0 ; letterIndex < 27 ; letterIndex ++)
+  {
+    free_list(library[letterIndex]);
+  }
 }

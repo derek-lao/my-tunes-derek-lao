@@ -3,12 +3,6 @@
 #include<string.h>
 #include "song_node.h"
 
-// void print_list_debug(struct song_node * subject)
-// {
-//   printf("the value is %d and the pointer is %ld and the next pointer is %ld", (*subject).i, subject, (*subject).next);
-//   printf("\n");
-// }
-
 int size(struct song_node *subject)
 {
   int answer = 0;
@@ -18,6 +12,17 @@ int size(struct song_node *subject)
     answer ++;
   }
   return answer;
+}
+
+struct song_node * find_last(struct song_node * subject)
+{
+  struct song_node * prev = subject;
+  while(subject)
+  {
+    prev = subject;
+    subject = subject->next;
+  }
+  return prev;
 }
 
 void print_list(struct song_node * subject)
