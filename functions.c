@@ -199,7 +199,6 @@ struct song_node * free_list(struct song_node * subject)
 
 struct song_node * random_element(struct song_node *subject)
 {
-  srand(time(NULL));
   int numberOfIterations = rand() % size(subject);
   while(numberOfIterations)
   {

@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "song_node.h"
 
 int main()
 {
+  srand(time(NULL));
   printf("Testing linkedList\n\n");
 
   printf("Testing print_list and insert:\n");
