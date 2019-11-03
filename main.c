@@ -65,5 +65,23 @@ int main()
   remove_song(thing, "beezos", "halop");
   printf("Removed, here is the list:\n");
   print_list(thing);
+  printf("\n");
+
+  printf("Testing random_element:\n");
+  printf("Going to print 7 random nodes:\n");
+  correct = random_element(thing);
+  print_node(correct);
+  correct = random_element(thing);
+  print_node(correct);
+  correct = random_element(thing);
+  print_node(correct);
+  correct = random_element(thing);
+  print_node(correct);
+  correct = random_element(thing);
+  print_node(correct);
+  correct = random_element(thing);
+  print_node(correct);
+  correct = random_element(thing);
+  print_node(correct);
   return 0;
 }
