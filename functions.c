@@ -28,6 +28,7 @@ void print_list(struct song_node * subject)
     printf(" %s: %s |", subject->artist, subject->name);
     subject = subject->next;
   }
+  printf("\n");
 }
 
 struct song_node * insert(struct song_node * subject, char * songName, char * songArtist)
@@ -56,7 +57,7 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
       p->next = subject;
       return p;
     }
-    while(subject && strcmp(subject->name, songName) < 0)
+    while(subject && !strcmp(subject->artist, songArtist) && strcmp(subject->name, songName) < 0)
     {
       prev = subject;
       subject = subject->next;
@@ -67,36 +68,25 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
   }
   //CASES FOR THE FIRST NODE COMPLETE
 
-  while(strcmp(subject->artist, songArtist) < 0)
+  while(subject && strcmp(subject->artist, songArtist) < 0)
   {
     prev = subject;
     subject = subject->next;
   }
-  if(strcmp(subject->artist, songArtist) > 0)
+  if(subject && strcmp(subject->artist, songArtist) > 0)
   {
     prev->next = p;
     p->next = subject;
     return frontMarker;
   }
-  if(!strcmp(subject->artist, songArtist))
+  while(subject && !strcmp(subject->artist, songArtist) && strcmp(subject->name, songName) < 0)
   {
-    if(strcmp(subject->name, songName) >= 0)
-    {
-      prev->next = p;
-      p->next = subject;
-      return frontMarker;
-    }
-    while(strcmp(subject->name, songName) < 0)
-    {
-      prev = subject;
-      subject = subject->next;
-    }
-    prev->next = p;
-    p->next = subject;
-    return frontMarker;
+    prev = subject;
+    subject = subject->next;
   }
-  printf("You should not have gotten up to this step! Error in function \"insert\" in file \"functions.c\"\n");
-  return subject;
+  prev->next = p;
+  p->next = subject;
+  return frontMarker;
 }
 
 struct twoPointers first_song_artist_helper(struct song_node *subject, char * songArtist)
