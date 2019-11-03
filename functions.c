@@ -80,7 +80,7 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
   return subject;
 }
 
-struct song_node *[2] first_song_artist(struct song_node *subject, char * songArtist)
+struct song_node *[2] first_song_artist_helper(struct song_node *subject, char * songArtist)
 {
   struct node * [2] answers;
   struct node * prev = subject;
@@ -95,12 +95,16 @@ struct song_node *[2] first_song_artist(struct song_node *subject, char * songAr
   *(answers + 1) = subject;
   return answers;//this becomes NULL if you go through the whole list
 }
+struct song_node * first_song_artist(struct song_node *subject, char * songArtist)
+{
+  return first_song_artist_helper(subject, songArtist)[1];
+}
 
-struct song_node * [2] find_song(struct song_node * subject, char * songName, char * songArtist)
+struct song_node * [2] find_song_helper(struct song_node * subject, char * songName, char * songArtist)
 {
   struct song_node * [2] answers;
-  struct song_node * prev = first_song_artist(subject, songArtist)[0];
-  subject = first_song_artist(subject, songArtist)[1];
+  struct song_node * prev = first_song_artist_helper(subject, songArtist)[0];
+  subject = first_song_artist_helper(subject, songArtist)[1];
   if(!subject)
   {
     *answers = NULL;
@@ -122,26 +126,25 @@ struct song_node * [2] find_song(struct song_node * subject, char * songName, ch
   *(answers + 1) = NULL;
   return answers;//this becomes NULL. If this goes here immediately and skips the while loop, it means the first_song_artist is not working
 }
+struct song_node * find_song(struct song_node * subject, char * songName, char * songArtist)
+{
+  return find_song_helper(subject, songName, songArtist)[1];
+}
 
 struct song_node * remove_song_node(struct song_node *subject, char * songName, char * songArtist)
 {
   struct song_node * prev= find_node(subject, songArtist)[0];
   struct song_node * subject = find_node(subject, songArtist)[1];
 
-  if(!subject)//meaning that if the song was found
+  if(subject)//meaning that if the song was found
   {
     prev->next = subject->next;
     free(subject);
+    subject = NULL;
+    return prev;
   }
-
-
-  while(artistNode)
-  {
-    if(!strcmp(artistNode->name, *songName))
-    {
-
-    }
-  }
+  // return subject;//can be used for debugging, this will be NULL if not found
+  return NULL;//return this if not found;
 }
 
 struct song_node * free_list(struct song_node * subject)
