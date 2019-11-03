@@ -31,7 +31,15 @@ void print_list(struct song_node * subject)
   printf("\n");
 }
 
-struct song_node * insert(struct song_node * subject, char * songName, char * songArtist)
+void print_node(struct song_node * subject)
+{
+  if(subject)
+  printf("%s: %s\n", subject->artist, subject->name);
+  else
+  printf("input pointer was null\n");
+}
+
+struct song_node * insert(struct song_node * subject, char * songArtist, char * songName)
 {
   struct song_node * frontMarker = subject;
   struct song_node * p = malloc(sizeof(struct song_node));
@@ -102,14 +110,14 @@ struct twoPointers first_song_artist_helper(struct song_node *subject, char * so
   }
   answers.first = prev;
   answers.second = subject;
-  return answers;//this becomes NULL if you go through the whole list
+  return answers;
 }
 struct song_node * first_song_artist(struct song_node *subject, char * songArtist)
 {
   return first_song_artist_helper(subject, songArtist).second;
 }
 
-struct twoPointers find_song_helper(struct song_node * subject, char * songName, char * songArtist)
+struct twoPointers find_song_helper(struct song_node * subject, char * songArtist, char * songName)
 {
   struct twoPointers answers;
   struct song_node * prev = first_song_artist_helper(subject, songArtist).first;
@@ -135,15 +143,15 @@ struct twoPointers find_song_helper(struct song_node * subject, char * songName,
   answers.second = NULL;
   return answers;//this becomes NULL. If this goes here immediately and skips the while loop, it means the first_song_artist is not working
 }
-struct song_node * find_song(struct song_node * subject, char * songName, char * songArtist)
+struct song_node * find_song(struct song_node * subject, char * songArtist, char * songName)
 {
-  return find_song_helper(subject, songName, songArtist).second;
+  return find_song_helper(subject, songArtist, songName).second;
 }
 
-struct song_node * remove_song_node(struct song_node *subject, char * songName, char * songArtist)
+struct song_node * remove_song(struct song_node *subject, char * songArtist, char * songName)
 {
-  struct song_node * prev = find_song_helper(subject, songName, songArtist).first;
-  subject = find_song_helper(subject, songName, songArtist).second;
+  struct song_node * prev = find_song_helper(subject, songArtist, songName).first;
+  subject = find_song_helper(subject, songArtist, songName).second;
 
   if(subject)//meaning that if the song was found
   {
