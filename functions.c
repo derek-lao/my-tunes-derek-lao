@@ -32,12 +32,19 @@ void print_list(struct song_node * subject)
 
 struct song_node * insert(struct song_node * subject, char * songName, char * songArtist)
 {
+  struct song_node * frontMarker = subject;
   struct song_node * p = malloc(sizeof(struct song_node));
   strcpy(p->name, songName);
   strcpy(p->artist, songArtist);
+  p->next = NULL;
   struct song_node * prev = subject;
 
-  if(!subject || strcmp(subject->artist, songArtist) > 0)
+  if(!subject)
+  {
+    p->next = subject;
+    return p;
+  }
+  if(strcmp(subject->artist, songArtist) > 0)
   {
     p->next = subject;
     return p;
@@ -49,14 +56,14 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
       p->next = subject;
       return p;
     }
-    while(strcmp(subject->name, songName) < 0)
+    while(subject && strcmp(subject->name, songName) < 0)
     {
       prev = subject;
       subject = subject->next;
     }
     prev->next = p;
     p->next = subject;
-    return p;
+    return frontMarker;
   }
   //CASES FOR THE FIRST NODE COMPLETE
 
@@ -69,7 +76,7 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
   {
     prev->next = p;
     p->next = subject;
-    return p;
+    return frontMarker;
   }
   if(!strcmp(subject->artist, songArtist))
   {
@@ -77,7 +84,7 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
     {
       prev->next = p;
       p->next = subject;
-      return p;
+      return frontMarker;
     }
     while(strcmp(subject->name, songName) < 0)
     {
@@ -86,7 +93,7 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
     }
     prev->next = p;
     p->next = subject;
-    return p;
+    return frontMarker;
   }
   printf("You should not have gotten up to this step! Error in function \"insert\" in file \"functions.c\"\n");
   return subject;
