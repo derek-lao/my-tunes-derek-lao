@@ -110,15 +110,17 @@ struct twoPointers first_song_artist_helper(struct song_node *subject, char * so
   }
   answers.first = prev;
   answers.second = subject;
-  if(!subject)
-  {
-    printf("First song by %s not found\n", songArtist);
-  }
   return answers;
 }
 struct song_node * first_song_artist(struct song_node *subject, char * songArtist)
 {
-  return first_song_artist_helper(subject, songArtist).second;
+  struct song_node * answer = first_song_artist_helper(subject, songArtist).second;
+  if(!answer)
+  {
+    printf("First song by %s not found\n", songArtist);
+    return answer;
+  }
+  return answer;
 }
 
 struct twoPointers find_song_helper(struct song_node * subject, char * songArtist, char * songName)
@@ -130,6 +132,7 @@ struct twoPointers find_song_helper(struct song_node * subject, char * songArtis
   {
     answers.first = NULL;
     answers.second = NULL;
+    return answers;
   }
   while(!strcmp(subject->artist, songArtist))
   {
@@ -143,14 +146,19 @@ struct twoPointers find_song_helper(struct song_node * subject, char * songArtis
     subject = subject->next;
   }
   //if you made it here, it means the song was not found;
-  printf("%s: %s not found\n", songArtist, songName);
   answers.first = NULL;
   answers.second = NULL;
   return answers;//this becomes NULL. If this goes here immediately and skips the while loop, it means the first_song_artist is not working
 }
 struct song_node * find_song(struct song_node * subject, char * songArtist, char * songName)
 {
-  return find_song_helper(subject, songArtist, songName).second;
+  struct song_node * answer = find_song_helper(subject, songArtist, songName).second;
+  if(!answer)
+  {
+    printf("%s: %s not found\n", songArtist, songName);
+    return answer;
+  }
+  return answer;
 }
 
 struct song_node * remove_song(struct song_node *subject, char * songArtist, char * songName)

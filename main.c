@@ -61,7 +61,7 @@ int main()
   remove_song(thing, "beezos", "halop");
   printf("Removed, here is the list:\n");
   print_list(thing);
-  printf("Going to remove [beezos: halop] (this is the second time, it shoudln't work)\n");
+  printf("Going to remove [beezos: halop] (this is the second time, it shouldn't work)\n");
   remove_song(thing, "beezos", "halop");
   printf("Removed, here is the list:\n");
   print_list(thing);
