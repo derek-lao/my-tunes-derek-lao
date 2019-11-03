@@ -25,7 +25,7 @@ void print_list(struct song_node * subject)
 {
   while(subject)
   {
-    printf("song artist: %s\nsong name: %s\n\n", subject->artist, subject->name);
+    printf(" %s: %s |", subject->artist, subject->name);
     subject = subject->next;
   }
 }
@@ -33,23 +33,23 @@ void print_list(struct song_node * subject)
 struct song_node * insert(struct song_node * subject, char * songName, char * songArtist)
 {
   struct song_node * p = malloc(sizeof(struct song_node));
-  strcpy(p->name, *songName);
-  strcpy(p->artist, *songArtist);
+  strcpy(p->name, songName);
+  strcpy(p->artist, songArtist);
   struct song_node * prev = subject;
 
-  if(!subject || strcmp(subject->artist, *songArtist) > 0)
+  if(!subject || strcmp(subject->artist, songArtist) > 0)
   {
     p->next = subject;
     return p;
   }
-  if(!strcmp(subject->artist, *songArtist))
+  if(!strcmp(subject->artist, songArtist))
   {
-    if(strcmp(subject->name, *songName) >= 0)
+    if(strcmp(subject->name, songName) >= 0)
     {
       p->next = subject;
       return p;
     }
-    while(strcmp(subject->name, *songName) < 0)
+    while(strcmp(subject->name, songName) < 0)
     {
       prev = subject;
       subject = subject->next;
@@ -60,26 +60,26 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
   }
   //CASES FOR THE FIRST NODE COMPLETE
 
-  while(strcmp(subject->artist, *songArtist) < 0)
+  while(strcmp(subject->artist, songArtist) < 0)
   {
     prev = subject;
     subject = subject->next;
   }
-  if(strcmp(subject->artist, *songArtist) > 0)
+  if(strcmp(subject->artist, songArtist) > 0)
   {
     prev->next = p;
     p->next = subject;
     return p;
   }
-  if(!strcmp(subject->artist, *songArtist))
+  if(!strcmp(subject->artist, songArtist))
   {
-    if(strcmp(subject->name, *songName) >= 0)
+    if(strcmp(subject->name, songName) >= 0)
     {
       prev->next = p;
       p->next = subject;
       return p;
     }
-    while(strcmp(subject->name, *songName) < 0)
+    while(strcmp(subject->name, songName) < 0)
     {
       prev = subject;
       subject = subject->next;
@@ -92,13 +92,13 @@ struct song_node * insert(struct song_node * subject, char * songName, char * so
   return subject;
 }
 
-struct song_node *[2] first_song_artist_helper(struct song_node *subject, char * songArtist)
+struct song_node * * first_song_artist_helper(struct song_node *subject, char * songArtist)
 {
-  struct node * [2] answers;
+  static struct node * answers[2];
   struct node * prev = subject;
-  if(subject && strcmp(subject->artist,*songArtist))
+  if(subject && strcmp(subject->artist,songArtist))
     subject = subject->next;
-  while(subject && strcmp(subject->artist,*songArtist))
+  while(subject && strcmp(subject->artist,songArtist))
   {
     prev = subject;
     subject = subject->next;
@@ -109,22 +109,26 @@ struct song_node *[2] first_song_artist_helper(struct song_node *subject, char *
 }
 struct song_node * first_song_artist(struct song_node *subject, char * songArtist)
 {
-  return first_song_artist_helper(subject, songArtist)[1];
+  struct song_node * * arrayOfAnswers= first_song_artist_helper(subject, songArtist);
+  struct song_node * answer = *(arrayOfAnswers + 1);
+  free(arrayOfAnswers);
+  arrayOfAnswers = NULL;
+  return answer;
 }
 
-struct song_node * [2] find_song_helper(struct song_node * subject, char * songName, char * songArtist)
+struct song_node * * find_song_helper(struct song_node * subject, char * songName, char * songArtist)
 {
-  struct song_node * [2] answers;
-  struct song_node * prev = first_song_artist_helper(subject, songArtist)[0];
-  subject = first_song_artist_helper(subject, songArtist)[1];
+  static struct song_node * answers[2];
+  struct song_node * prev = *(first_song_artist_helper(subject, songArtist));
+  subject = *(first_song_artist_helper(subject, songArtist) + 1);
   if(!subject)
   {
     *answers = NULL;
     *(answers + 1) = NULL;
   }
-  while(!strcmp(loopingPointer->artist, songArtist))
+  while(!strcmp(subject->artist, songArtist))
   {
-    if(!strcmp(loopingPointer->name, songName))
+    if(!strcmp(subject->name, songName))
     {
       *answers = prev;
       *(answers + 1) = subject;
@@ -140,13 +144,17 @@ struct song_node * [2] find_song_helper(struct song_node * subject, char * songN
 }
 struct song_node * find_song(struct song_node * subject, char * songName, char * songArtist)
 {
-  return find_song_helper(subject, songName, songArtist)[1];
+  struct song_node * * arrayOfAnswers= first_song_helper(subject, songName, songArtist);
+  struct song_node * answer = *(arrayOfAnswers + 1);
+  free(arrayOfAnswers);
+  arrayOfAnswers = NULL;
+  return answer;
 }
 
 struct song_node * remove_song_node(struct song_node *subject, char * songName, char * songArtist)
 {
-  struct song_node * prev= find_node(subject, songArtist)[0];
-  struct song_node * subject = find_node(subject, songArtist)[1];
+  struct song_node * prev = *(find_song_helper(subject, songName, songArtist));
+  subject = *(find_song_helper(subject, songName, songArtist) + 1);
 
   if(subject)//meaning that if the song was found
   {
