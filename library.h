@@ -1,6 +1,8 @@
 struct song_node * library[27];
 
+//helper functions start
 int convertIndex(char * songArtist);
+//helper functions end
 
 void add(char * songArtist, char * songName);
 
