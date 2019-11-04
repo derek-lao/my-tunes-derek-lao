@@ -35,7 +35,10 @@ struct song_node * find_song(struct song_node * subject, char * songArtist, char
 
 struct song_node * free_list(struct song_node * subject);
 struct song_node * remove_song(struct song_node *front, char * songArtist, char * songName);
-// find and return a pointer to the node before the freed node;
+// remove a single specified node on the list, return pointer to the start of the list
 
 struct song_node * random_element(struct song_node *subject);
 // Return a pointer to random element in the list.
+
+struct song_node * free_list(struct song_node * subject);
+// free the entire list

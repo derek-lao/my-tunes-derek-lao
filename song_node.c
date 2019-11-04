@@ -175,7 +175,10 @@ struct song_node * remove_song(struct song_node *subject, char * songArtist, cha
   struct song_node * frontMarker = subject;
   if(!strcmp(subject->artist, songArtist) && !strcmp(subject->name, songName))
   {
+    struct song_node * temp = subject;
     subject = subject->next;
+    free(temp);
+    temp = NULL;
     return subject;
   }
   struct twoPointers answers = find_song_helper(subject, songArtist, songName);
@@ -198,11 +201,11 @@ struct song_node * free_list(struct song_node * subject)
   struct song_node * p;
   while(subject)
   {
+    printf("hi\n");
     p = subject;
     subject = (*subject).next;
     free(p);
   }
-  p = NULL;
   return subject;
 }
 

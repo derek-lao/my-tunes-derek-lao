@@ -28,9 +28,9 @@ int main()
   printf("insert_front(dummy, \"yellow\", \"tight\")\n");
   dummy = insert_front (dummy, "yellow", "tight");
   print_list(dummy);
-  printf("\n");
+  printf("\n\n");
 
-  printf("Testing print_list and insert_order:\n");
+  printf("Testing print_list and insert:\n");
   printf("insert(thing, \"aman\", \"abc\")\n");
   thing = insert(thing, "aman", "abc");
   print_list(thing);
@@ -58,21 +58,21 @@ int main()
   printf("insert(thing, \"aman\", \"meow\")\n");
   thing = insert(thing, "aman", "meow");
   print_list(thing);
-  printf("\n");
+  printf("\n\n");
 
   printf("Testing print_node:\n");
   printf("print_node(thing)\n");
   print_node(thing);
   printf("print_node(thing->next->next->next)\n");
   print_node(thing->next->next->next);
-  printf("\n");
+  printf("\n\n");
 
   printf("Testing first_song_artist:\n");
   printf("Looking for the first song of aman:\n");
   correct = first_song_artist(thing, "aman");
   printf("Should return \"aman: abc\": ");
   print_node(correct);
-  printf("\n");
+  printf("\n\n");
 
   printf("Testing find_song:\n");
   printf("Looking for: [beezos, halop]\n");
@@ -83,7 +83,7 @@ int main()
   printf("Looking for: [beezos, drinkingGame]\n");
   correct = find_song(thing, "beezos", "drinkingGame");
   print_node(correct);
-  printf("\n");
+  printf("\n\n");
 
   printf("Testing remove_song:\n");
   printf("Going to remove [aman: meow]\n");
@@ -98,7 +98,7 @@ int main()
   remove_song(thing, "beezos", "halop");
   printf("Removed, here is the list:\n");
   print_list(thing);
-  printf("\n");
+  printf("\n\n");
 
   printf("Testing random_element:\n");
   printf("Going to print 7 random nodes:\n");
@@ -117,7 +117,14 @@ int main()
   correct = random_element(thing);
   print_node(correct);
   printf("\n\n");
-  printf("======================\n\n");
+
+  printf("Testing free_list:\n");
+  printf("Going to free the list:\n");
+  printf("free_list(thing) being called between this line and the next\n");
+  free_list(thing);
+  printf("print_list(thing) the contents will be printed on the next line\n");
+  print_list(thing);
+  printf("===============================================================\n\n");
 
   printf("Testing library\n\n");
 
@@ -126,12 +133,10 @@ int main()
   add("taylor swift", "blank space");
   printf("printing library\n");
   print_library();
-  printf("\n");
   printf("add(\"katy perry\", \"dark horse\")\n");
   add("katy perry", "dark horse");
   printf("printing library\n");
   print_library();
-  printf("\n");
   add("taylor swift", "begin again");
   add("katy perry", "firework");
   add("katy perry", "last friday night");
@@ -174,10 +179,55 @@ int main()
   printf("Testing print_entries_letter\n");
   printf("print_entries_letter('a'):\n");
   print_entries_letter('a');
+  printf("\n");
   printf("print_entries_letter('j'):\n");
   print_entries_letter('j');
+  printf("\n");
   printf("print_entries_letter('z'):\n");
   print_entries_letter('z');
+  printf("\n\n");
+
+  printf("Testing find_artist, will return pointer to first song_node of the artist if found\n");
+  printf("find_artist(\"andy grammer\"): ");
+  print_node(find_artist("andy grammer"));
+  printf("find artist(\"michael jackson\"): ");
+  find_artist("michael jackson");
+
+  printf("Testing delete_song\n");
+  printf("Original library:\n");
+  print_library();
+  printf("delete_song(\"bruno mars\", \"24k magic\")\n");
+  delete_song("bruno mars", "24k magic");
+  print_library();
+  printf("delete_song(\"taylor swift\", \"begin again\")\n");
+  delete_song("taylor swift", "begin again");
+  print_library();
+  printf("delete_song(\"justin bieber\", \"what do you mean\")\n");
+  delete_song("justin bieber", "what do you mean");
+  print_library();
+  printf("delete song(\"justin bieber\", \"what do you mean\")\n");
+  printf("(this is supposed to delete something nonexistent, so it should not work):\n");
+  delete_song("justin bieber", "what do you mean");
+  print_library();
+  printf("\n\n");
+
+  printf("Testing print_songs_artist\n");
+  printf("print_songs_artist(\"justin bieber\"):\n");
+  print_songs_artist("justin bieber");
+  printf("\n");
+  printf("print_song_artist(\"michael jackson\"):\n");
+  print_songs_artist("michael jackson");
+  printf("\n\n");
+
+  printf("Testing print_series_random_100\n");
+  printf("print_series_random_100() (this is supposed to return a series of random 100 songs from the library):\n");
+  print_series_random_100();
+  printf("\n\n");
+
+  printf("Testing clear_library\n");
+  clear_library();
+  printf("clear_library() called, printing library...:\n");
+  print_library();
 
   return 0;
 }

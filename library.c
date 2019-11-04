@@ -4,6 +4,18 @@
 #include "library.h"
 #include "song_node.h"
 
+int sizeLibrary()
+{
+  int index = 0;
+  int answer = 0;
+  while(index < 27)
+  {
+    answer += size(library[index]);
+    index ++;
+  }
+  return answer;
+}
+
 int convertIndex(char * songArtist)
 {
   int index = *songArtist - 97;
@@ -50,8 +62,7 @@ struct song_node * find_artist(char * songArtist)
 
 void delete_song(char * songArtist, char * songName)
 {
-  struct song_node * subject = library[convertIndex(songArtist)];
-  remove_song(subject, songArtist, songName);
+  library[convertIndex(songArtist)] = remove_song(library[convertIndex(songArtist)], songArtist, songName);
 }
 
 void print_songs_artist(char * songArtist)
@@ -59,11 +70,11 @@ void print_songs_artist(char * songArtist)
   struct song_node * subject = library[convertIndex(songArtist)];
   subject = first_song_artist_helper(subject, songArtist).second;
   if(!subject)
-  printf("First song by %s not found\n", songArtist);
+  printf("songs by %s not found\n", songArtist);
 
   else
   {
-    while(!strcmp(subject->artist, songArtist))
+    while(subject && !strcmp(subject->artist, songArtist))
     {
       printf(" %s: %s |", subject->artist, subject->name);
       subject = subject->next;
@@ -75,32 +86,75 @@ void print_songs_artist(char * songArtist)
 void print_library()
 {
   int letterIndex;
-  for(letterIndex = 0 ; letterIndex < 26 ; letterIndex ++)
+  printf("\n#############################################################\n");
+  for(letterIndex = 0 ; letterIndex < 27 ; letterIndex ++)
   {
     if(library[letterIndex])
     print_entries_letter((char) (letterIndex + 97));
   }
+  printf("#############################################################\n\n");
 }
+
+// struct song_node *  print_series_random_100()
+// {
+//   struct song_node * frontMarker = *library;
+//   struct song_node * subject;
+//   struct song_node * element;
+//   int letterIndex;
+//   for(letterIndex = 0 ; letterIndex < 27 ;)
+//   {
+//     if(library[letterIndex])
+//     {
+//       subject = find_last(library[letterIndex]);
+//       int nextLetterIndex = letterIndex + 1;
+//       while(!library[nextLetterIndex] && nextLetterIndex < 27)
+//       nextLetterIndex ++;
+//
+//       if(nextLetterIndex < 26 && library[nextLetterIndex])
+//       subject->next = library[nextLetterIndex];
+//
+//       letterIndex = nextLetterIndex;
+//     }
+//     else
+//     letterIndex ++;
+//   }
+//   subject = NULL;
+//   int forLoopIndex;
+//   for(forLoopIndex = 0 ; forLoopIndex < 100 ; forLoopIndex ++)
+//   {
+//     element = random_element(frontMarker);
+//     subject = insert_front(subject, element->artist, element->name);
+//   }
+//   print_list(subject);
+// }
 
 struct song_node *  print_series_random_100()
 {
-  struct song_node * frontMarker = *library;
+  struct song_node * frontMarker = NULL;
   struct song_node * subject;
   struct song_node * element;
-  int letterIndex;
-  for(letterIndex = 0 ; letterIndex < 26 ; letterIndex ++)
-  {
-    subject = find_last(library[letterIndex]);
-    subject->next = library[letterIndex + 1];
-  }
-  subject = NULL;
+  int libIndex;
   int forLoopIndex;
-  for(forLoopIndex = 0; forLoopIndex < 100 ; forLoopIndex ++)
+  for(forLoopIndex = 0 ; forLoopIndex < 100 ; forLoopIndex ++)
   {
-    element = random_element(frontMarker);
-    subject = insert_front(subject, element->artist, element->name);
+    subject = *library;
+    int numberOfIterations = rand() % sizeLibrary();
+    libIndex = 0;
+    while(libIndex < 27)
+    {
+      if(library[libIndex])
+      {
+        while(subject && numberOfIterations)
+        {
+          subject = subject->next;
+          numberOfIterations --;
+        }
+      }
+      libIndex ++;
+    }
+    frontMarker = insert_front(frontMarker, subject->artist, subject->name);
   }
-  return subject;
+  print_list(frontMarker);
 }
 
 void clear_library()
@@ -108,6 +162,8 @@ void clear_library()
   int letterIndex;
   for(letterIndex = 0 ; letterIndex < 27 ; letterIndex ++)
   {
-    free_list(library[letterIndex]);
+    printf("letterIndex is %d\n", letterIndex);
+    printf("library[letterIndex] is: %ld\n", library[letterIndex]);
+    library[letterIndex] = free_list(library[letterIndex]);
   }
 }
