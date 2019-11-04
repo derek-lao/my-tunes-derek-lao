@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "song_node.h"
+#include "library.h"
 
 int main()
 {
@@ -120,6 +121,23 @@ int main()
   printf("======================\n\n");
 
   printf("Testing library\n\n");
+  add("taylor swift", "blank space");
+  add("katy perry", "dark horse");
+  add("taylor swift", "begin again");
+  add("katy perry", "firework");
+  add("katy perry", "last friday night");
+  add("andy grammer", "honey, i'm good");
+  add("andy grammer", "good to be alive");
+  add("bruno mars", "grenade");
+  add("bruno mars", "just the way you are");
+  add("bruno mars", "paradise");
+  add("taylor swift", "red");
+  add("drake", "god's plan");
+  add("justin bieber", "baby");
+  add("selena gomez", "hands to myself");
+  add("selena gomez", "who says");
+  print_library();
+  printf("\n");
 
   return 0;
 }

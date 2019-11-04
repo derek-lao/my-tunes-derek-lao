@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include "library.h"
+#include "song_node.h"
 
 int convertIndex(char * songArtist)
 {
@@ -12,7 +13,7 @@ int convertIndex(char * songArtist)
 }
 void add(char * songArtist, char * songName)
 {
-  insert(library[convertIndex(songArtist)], songArtist, songName);
+  library[convertIndex(songArtist)] = insert(library[convertIndex(songArtist)], songArtist, songName);
 }
 
 struct song_node * search_song(char * songArtist, char * songName)
@@ -67,14 +68,15 @@ void print_library()
   int letterIndex;
   for(letterIndex = 0 ; letterIndex < 26 ;)
   {
-    printf("%c:\n", (char) letterIndex)
-    print_entries_letter((char) letterIndex);
+    // printf("letterIndex is: %c\n", (char)(letterIndex + 97));
+    printf("%c:\n", (char)(letterIndex + 97));
+    print_entries_letter((char)(letterIndex + 97));
     printf("\n");
     letterIndex ++;
   }
   if(letterIndex == 26)
   {
-    printf("symbols:\n")
+    printf("symbols:\n");
     print_entries_letter((char) letterIndex);
     printf("\n");
   }
@@ -89,7 +91,7 @@ struct song_node *  print_series_random_100()
   for(letterIndex = 0 ; letterIndex < 26 ; letterIndex ++)
   {
     subject = find_last(library[letterIndex]);
-    subject.next = library[letterIndex + 1];
+    subject->next = library[letterIndex + 1];
   }
   subject = NULL;
   int forLoopIndex;

@@ -12,7 +12,7 @@ struct twoPointers{
 //helper functions start
 int size(struct song_node *subject);
 
-struct song_node * find_last(struct song_node * subject)
+struct song_node * find_last(struct song_node * subject);
 //helper functions end
 
 void print_list(struct song_node * subject);
