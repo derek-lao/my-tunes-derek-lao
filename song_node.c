@@ -39,8 +39,6 @@ void print_node(struct song_node * subject)
 {
   if(subject)
   printf("%s: %s\n", subject->artist, subject->name);
-  else
-  printf("input pointer was null\n");
 }
 
 struct song_node *insert_front(struct song_node * subject, char * songArtist, char * songName)
@@ -145,7 +143,7 @@ struct twoPointers find_song_helper(struct song_node * subject, char * songArtis
     answers.second = NULL;
     return answers;
   }
-  while(!strcmp(subject->artist, songArtist))
+  while(subject && !strcmp(subject->artist, songArtist))
   {
     if(!strcmp(subject->name, songName))
     {

@@ -82,7 +82,6 @@ int main()
   printf("\n");
   printf("Looking for: [beezos, drinkingGame]\n");
   correct = find_song(thing, "beezos", "drinkingGame");
-  printf("If the thing print_node past these colons says the \"input pointer is null\", it means it came out as null, so it works and was not found:\n");
   print_node(correct);
   printf("\n");
 
@@ -121,8 +120,18 @@ int main()
   printf("======================\n\n");
 
   printf("Testing library\n\n");
+
+  printf("Testing add and print_library\n\n");
+  printf("add(\"taylor swift\", \"blank space\")\n");
   add("taylor swift", "blank space");
+  printf("printing library\n");
+  print_library();
+  printf("\n");
+  printf("add(\"katy perry\", \"dark horse\")\n");
   add("katy perry", "dark horse");
+  printf("printing library\n");
+  print_library();
+  printf("\n");
   add("taylor swift", "begin again");
   add("katy perry", "firework");
   add("katy perry", "last friday night");
@@ -136,8 +145,39 @@ int main()
   add("justin bieber", "baby");
   add("selena gomez", "hands to myself");
   add("selena gomez", "who says");
+  add("tove lo", "habits");
+  add("adele", "hello");
+  add("adele", "set fire to the rain");
+  add("adele", "rolling in the deep");
+  add("justin bieber", "boyfriend");
+  add("justin bieber", "sorry");
+  add("justin bieber", "love yourself");
+  add("justin bieber", "what do you mean");
+  add("justin timberlake", "sexy back");
+  add("justin timberlake", "suit & tie");
+  add("bruno mars", "uptown funk");
+  add("bruno mars", "24k magic");
+  add("john lennon", "imagine");
+  printf("added a bunch of songs, printing library\n");
   print_library();
-  printf("\n");
+  printf("\n\n");
+
+  printf("Testing search_song\n");
+  printf("search_song(\"taylor swift\", \"blank space\"): ");
+  correct = search_song("taylor swift", "blank space");
+  print_node(correct);
+  printf("search_song(\"taylor swift\", \"delicate\"): ");
+  correct = search_song("taylor swift", "delicate");
+  print_node(correct);
+  printf("\n\n");
+
+  printf("Testing print_entries_letter\n");
+  printf("print_entries_letter('a'):\n");
+  print_entries_letter('a');
+  printf("print_entries_letter('j'):\n");
+  print_entries_letter('j');
+  printf("print_entries_letter('z'):\n");
+  print_entries_letter('z');
 
   return 0;
 }

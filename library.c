@@ -24,7 +24,16 @@ struct song_node * search_song(char * songArtist, char * songName)
 
 void print_entries_letter(char c)
 {
-  print_list(library[convertIndex(&c)]);
+  if(library[convertIndex(&c)])
+  {
+    if(convertIndex(&c) == 26)
+    printf("symbols:\n");
+    else
+    printf("%c:\n", c);
+    print_list(library[convertIndex(&c)]);
+  }
+  else
+  printf("Entries of letter %c not found\n", c);
 }
 
 struct song_node * find_artist(char * songArtist)
@@ -66,19 +75,10 @@ void print_songs_artist(char * songArtist)
 void print_library()
 {
   int letterIndex;
-  for(letterIndex = 0 ; letterIndex < 26 ;)
+  for(letterIndex = 0 ; letterIndex < 26 ; letterIndex ++)
   {
-    // printf("letterIndex is: %c\n", (char)(letterIndex + 97));
-    printf("%c:\n", (char)(letterIndex + 97));
-    print_entries_letter((char)(letterIndex + 97));
-    printf("\n");
-    letterIndex ++;
-  }
-  if(letterIndex == 26)
-  {
-    printf("symbols:\n");
-    print_entries_letter((char) letterIndex);
-    printf("\n");
+    if(library[letterIndex])
+    print_entries_letter((char) (letterIndex + 97));
   }
 }
 
