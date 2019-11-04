@@ -47,6 +47,7 @@ struct song_node *insert_front(struct song_node * subject, char * songArtist, ch
   strcpy(p->name, songName);
   strcpy(p->artist, songArtist);
   p->next = subject;
+  printf("hi\n");
   return p;
 }
 

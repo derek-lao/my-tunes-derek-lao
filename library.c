@@ -152,7 +152,10 @@ struct song_node *  print_series_random_100()
       }
       libIndex ++;
     }
+    printf("frontMarker before insert_front is %ld\n", frontMarker);
+    printf("subject is %ld\n", subject);
     frontMarker = insert_front(frontMarker, subject->artist, subject->name);
+    printf("frontMarker after insert_front is %ld\n", frontMarker);
   }
   print_list(frontMarker);
 }
