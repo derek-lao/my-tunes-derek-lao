@@ -47,7 +47,6 @@ struct song_node *insert_front(struct song_node * subject, char * songArtist, ch
   strcpy(p->name, songName);
   strcpy(p->artist, songArtist);
   p->next = subject;
-  printf("hi\n");
   return p;
 }
 
@@ -202,7 +201,6 @@ struct song_node * free_list(struct song_node * subject)
   struct song_node * p;
   while(subject)
   {
-    printf("hi\n");
     p = subject;
     subject = (*subject).next;
     free(p);

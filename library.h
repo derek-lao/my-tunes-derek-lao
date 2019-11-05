@@ -18,6 +18,6 @@ void print_songs_artist(char * songArtist);
 
 void print_library();
 
-struct song_node *  print_series_random_100();
+void shuffle_print_100();
 
 void clear_library();

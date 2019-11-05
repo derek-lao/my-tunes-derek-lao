@@ -128,45 +128,64 @@ void print_library()
 //   print_list(subject);
 // }
 
-struct song_node *  print_series_random_100()
+// struct song_node *  print_series_random_100()
+// {
+//   struct song_node * frontMarker = NULL;
+//   struct song_node * subject;
+//   struct song_node * element;
+//   int sizeOfLibrary = sizeLibrary();
+//   printf("sizeOfLibrary: %d\n", sizeOfLibrary);
+//   int libIndex;
+//   int forLoopIndex;
+//   for(forLoopIndex = 0 ; forLoopIndex < 100 ; forLoopIndex ++)
+//   {
+//     subject = *library;
+//     int numberOfIterations = rand() % sizeOfLibrary;
+//     libIndex = 0;
+//     while(numberOfIterations)
+//     {
+//       printf("numberOfIterations: %d", numberOfIterations);
+//       while(libIndex < 27)
+//       {
+//         if(library[libIndex])
+//         {
+//           subject = library[libIndex];
+//           numberOfIterations --;
+//           while(subject)
+//           {
+//             subject = subject->next;
+//             numberOfIterations --;
+//           }
+//         }
+//         libIndex++;
+//       }
+//     }
+//     frontMarker = insert_front(frontMarker, subject->artist, subject->name);
+//   }
+//   print_list(frontMarker);
+// }
+
+void shuffle_print_100()
 {
-  struct song_node * frontMarker = NULL;
-  struct song_node * subject;
-  struct song_node * element;
-  int libIndex;
-  int forLoopIndex;
+  int libraryIndex;
+  int forLoopIndex = 0;
+  struct song_node * subject = NULL;
+  struct song_node * temp;
   for(forLoopIndex = 0 ; forLoopIndex < 100 ; forLoopIndex ++)
   {
-    subject = *library;
-    int numberOfIterations = rand() % sizeLibrary();
-    libIndex = 0;
-    while(libIndex < 27)
-    {
-      if(library[libIndex])
-      {
-        while(subject && numberOfIterations)
-        {
-          subject = subject->next;
-          numberOfIterations --;
-        }
-      }
-      libIndex ++;
-    }
-    printf("frontMarker before insert_front is %ld\n", frontMarker);
-    printf("subject is %ld\n", subject);
-    frontMarker = insert_front(frontMarker, subject->artist, subject->name);
-    printf("frontMarker after insert_front is %ld\n", frontMarker);
+    libraryIndex = rand() % 27;
+    while(!library[libraryIndex])
+      libraryIndex = rand() % 27;
+
+    temp = random_element(library[libraryIndex]);
+    subject = insert_front(subject, temp->artist, temp->name);
   }
-  print_list(frontMarker);
+  print_list(subject);
 }
 
 void clear_library()
 {
   int letterIndex;
   for(letterIndex = 0 ; letterIndex < 27 ; letterIndex ++)
-  {
-    printf("letterIndex is %d\n", letterIndex);
-    printf("library[letterIndex] is: %ld\n", library[letterIndex]);
     library[letterIndex] = free_list(library[letterIndex]);
-  }
 }

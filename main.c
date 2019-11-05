@@ -121,8 +121,9 @@ int main()
   printf("Testing free_list:\n");
   printf("Going to free the list:\n");
   printf("free_list(thing) being called between this line and the next\n");
-  free_list(thing);
+  thing = free_list(thing);
   printf("print_list(thing) the contents will be printed on the next line\n");
+  printf("thing is %ld\n", thing);
   print_list(thing);
   printf("===============================================================\n\n");
 
@@ -219,9 +220,9 @@ int main()
   print_songs_artist("michael jackson");
   printf("\n\n");
 
-  printf("Testing print_series_random_100\n");
-  printf("print_series_random_100() (this is supposed to return a series of random 100 songs from the library):\n");
-  print_series_random_100();
+  printf("Testing shuffle_print_100\n");
+  printf("shuffle_print_100() (this is supposed to return a series of random 100 songs from the library):\n");
+  shuffle_print_100();
   printf("\n\n");
 
   printf("Testing clear_library\n");
